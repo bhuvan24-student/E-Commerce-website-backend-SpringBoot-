@@ -23,32 +23,45 @@ public class ProductsController {
      ProductsController(ProductsService ps){
       this. ps=ps;
     }
+
+
     //returns all
     @GetMapping("/products")
-       public ResponseEntity< List<Products>> get(){
-          return ResponseEntity.ok(ps.getProducts()) ;
-       }
-   //return by id
+     public ResponseEntity<List<Products>> getall(){
+          List<Products> have=ps.getProducts();
+          if(have!=null){
+            return ResponseEntity.ok(have);
+          }
+          else{
+           return  null;
+          }
+     }
+ 
+       //return by id
    @GetMapping("/products/{id}")
-   public ResponseEntity< Products> getId(@PathVariable int id){
-      Products prod=ps.getProd(id);
-      if(prod!=null){
-      return  ResponseEntity.ok(prod);
-      }
+   public ResponseEntity<Products> getbyid(@PathVariable int id){
+      Products have=ps.getProd(id);
+      if(have!=null)return ResponseEntity.ok(have);
       else return ResponseEntity.notFound().build();
    }
+ 
+ 
    //delete    
    @DeleteMapping("/products/{id}")
    public void Delete(@PathVariable int id){
              ps.Delete(id);
    } 
+ 
+ 
    //update 
    @PutMapping("/products")
-   public void Update(@RequestBody Products prod){
-      ps.Update(prod);
+   public ResponseEntity<?> Update(@RequestBody Products prod){
+         ps.Update(prod);
+         return ResponseEntity.ok().build();
    }
 
 
+  //ADDING OF PRODUCST 
    @PostMapping("/products")
    public ResponseEntity<?> Addimage(@RequestPart Products prod, @RequestPart MultipartFile image){
       try{
@@ -59,4 +72,16 @@ public class ProductsController {
            return ResponseEntity.internalServerError().body(e.getMessage());
       }
    }
+
+   //image fetching 
+   @GetMapping("/products/{id}/image")
+   public ResponseEntity<byte[]> ImageFile(@PathVariable int id){
+      Products product=ps.getProd(id);
+      byte[] imagefile=product.getImage_date();
+       return ResponseEntity.ok()
+            .contentType(MediaType.valueOf(product.getImage_type()))
+            .body(imagefile);
+         
+   }
+
 }

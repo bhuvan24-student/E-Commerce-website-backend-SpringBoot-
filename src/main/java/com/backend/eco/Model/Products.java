@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
@@ -31,7 +32,6 @@ public class Products {
          @Column(name="image_type")
          private String image_type;
          @Lob
-         @JsonIgnore
          @Column(name = "image_date")
          private byte[] image_date;
          private boolean available;

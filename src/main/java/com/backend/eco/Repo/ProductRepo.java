@@ -6,6 +6,4 @@ import org.springframework.stereotype.Repository;
 import com.backend.eco.Model.Products;
 @Repository
 public interface ProductRepo extends JpaRepository<Products, Integer> {
-
-
 }
