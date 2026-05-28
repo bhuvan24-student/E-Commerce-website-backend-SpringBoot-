@@ -31,6 +31,7 @@ public class Products {
          private String image_name;
          @Column(name="image_type")
          private String image_type;
+         //actual image stores in image date 
          @Lob
          @Column(name = "image_date")
          private byte[] image_date;

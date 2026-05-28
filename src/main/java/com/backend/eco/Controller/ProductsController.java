@@ -1,4 +1,5 @@
 package com.backend.eco.Controller;
+import java.io.IOException;
 import java.util.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,7 +27,7 @@ public class ProductsController {
     }
 
 
-    //returns all
+    //returns all the products in the database
     @GetMapping("/products")
      public ResponseEntity<List<Products>> getall(){
           List<Products> have=ps.getProducts();
@@ -37,7 +39,7 @@ public class ProductsController {
           }
      }
  
-       //return by id
+       //return a specific product with the given id
    @GetMapping("/products/{id}")
    public ResponseEntity<Products> getbyid(@PathVariable int id){
       Products have=ps.getProd(id);
@@ -46,14 +48,14 @@ public class ProductsController {
    }
  
  
-   //delete    
+   //delete's a product with the given id in the database
    @DeleteMapping("/products/{id}")
    public void Delete(@PathVariable int id){
              ps.Delete(id);
    } 
  
  
-   //update 
+   //update's the products details in the database
    @PutMapping("/products")
    public ResponseEntity<?> Update(@RequestBody Products prod){
          ps.Update(prod);
@@ -61,7 +63,7 @@ public class ProductsController {
    }
 
 
-  //ADDING OF PRODUCST 
+  //adding of new products along with the image of the products
    @PostMapping("/products")
    public ResponseEntity<?> Addimage(@RequestPart Products prod, @RequestPart MultipartFile image){
       try{
@@ -73,15 +75,31 @@ public class ProductsController {
       }
    }
 
-   //image fetching 
+   //shows the image of the products with the id product id
    @GetMapping("/products/{id}/image")
    public ResponseEntity<byte[]> ImageFile(@PathVariable int id){
       Products product=ps.getProd(id);
       byte[] imagefile=product.getImage_date();
        return ResponseEntity.ok()
             .contentType(MediaType.valueOf(product.getImage_type()))
-            .body(imagefile);
-         
+            .body(imagefile);  
    }
-
+   
+   //updating the product inculding the image 
+   @PutMapping("/products/")
+   public ResponseEntity<String> Updateproduct(@RequestPart Products prod,@RequestPart MultipartFile imagfile){
+      Products check=null;
+      try{
+      check=ps.Updateprod(prod, imagfile);
+      }
+      catch(IOException e){
+         throw new RuntimeException(e);
+      }
+      if(check!=null){
+         return ResponseEntity.ok("Updated successfully");
+      }
+      else{
+         return ResponseEntity.badRequest().build();
+      }
+   }
 }
