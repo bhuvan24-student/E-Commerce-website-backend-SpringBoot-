@@ -37,7 +37,7 @@ public class ProductsService {
     return repo.save(prod);
     }
 
-    //updates the existing product details 
+    //updates the existing product details (no image needed)
     public void Update(Products prod){
         repo.save(prod);
     }
@@ -61,4 +61,9 @@ public class ProductsService {
         prod.setImage_date(imagefile.getBytes());
        return  repo.save(prod);
         }
+
+   //return products through key word
+   public List<Products> searchbykeyword(String keyword){
+      return repo.searchProducts(keyword);
+   }     
 }

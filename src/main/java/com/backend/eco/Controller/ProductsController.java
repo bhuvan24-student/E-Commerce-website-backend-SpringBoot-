@@ -9,13 +9,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.backend.eco.Model.Products;
 import com.backend.eco.Service.ProductsService;
+
+
 import org.springframework.http.*;
 @RestController
 @RequestMapping("/api")
@@ -102,4 +104,17 @@ public class ProductsController {
          return ResponseEntity.badRequest().build();
       }
    }
+
+   //by any keyword
+    @GetMapping("/products/search{keyword}")
+     public ResponseEntity<List<Products>> getbykeyword(@RequestParam String keyword){
+        
+         List<Products> have=ps.searchbykeyword(keyword);
+         if(have!=null){
+            return ResponseEntity.ok(have);
+         } 
+         else{
+            return ResponseEntity.notFound().build();
+         }
+     }
 }
