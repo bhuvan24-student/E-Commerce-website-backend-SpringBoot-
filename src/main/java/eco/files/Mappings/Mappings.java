@@ -1,6 +1,8 @@
-package eco.Controllers.Mappings;
-import eco.Controllers.Services.Products;
-import eco.Controllers.Services.ProductsList;
+package eco.files.Mappings;
+import eco.files.Services.Products;
+import eco.files.Services.ProductsList;
+import jakarta.websocket.server.PathParam;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +39,11 @@ public class Mappings {
         }
         return ResponseEntity.ok(prod);
     }
+    @GetMapping("/products/{keyword}")
+    public List<Products> callByName(@PathVariable String keyword){
+       List< Products> prod=products.ProductsByKeyword(keyword);
+        return prod;
+    }
 
     @DeleteMapping("/products/{id}")
     public ResponseEntity<?> DeleteProduct(@PathVariable int id){
@@ -59,7 +66,7 @@ public class Mappings {
     }
 
     @PostMapping("/products/add")
-    public ResponseEntity<?> AddingProducts(Products prod){
+    public ResponseEntity<?> AddingProducts(@RequestBody Products prod){
           try{
               products.AddProducts(prod);
               return ResponseEntity.ok().build();
@@ -70,7 +77,7 @@ public class Mappings {
     }
 
     @PostMapping("/products/addwithimage")
-    public ResponseEntity<?> AddingProductswithImage(@RequestPart Products prod,@RequestPart MultipartFile image) throws IOException {
+    public ResponseEntity<?> AddWithImage(@RequestPart Products prod,@RequestPart MultipartFile image) throws IOException {
         try{
             products.AddWithImage(prod,image);
             return ResponseEntity.ok("Successfully added");
@@ -81,7 +88,7 @@ public class Mappings {
     }
 
     @PutMapping("/products")
-    public ResponseEntity<?> UpdatingProduct(@RequestPart Products prod){
+    public ResponseEntity<?> UpdatingProduct(@RequestBody Products prod){
         try{
             products.UpdateProducts(prod);
             return ResponseEntity.ok("successfully updated");

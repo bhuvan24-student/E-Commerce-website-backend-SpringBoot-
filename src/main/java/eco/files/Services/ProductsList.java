@@ -1,6 +1,6 @@
-package eco.Controllers.Services;
+package eco.files.Services;
 
-import eco.Controllers.Repository.ProductRepository;
+import eco.files.Repository.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,14 +25,15 @@ public class ProductsList {
         return repo.findById(id).orElse(null);
     }
 
+    //calling by keyword
+    public List<Products> ProductsByKeyword(String keyword){ return repo.searchProducts(keyword);}
+
     //adding products along with image
     public void AddWithImage(Products prod, MultipartFile image) throws IOException {
         prod.setImage(image.getBytes());
         prod.setImage_name(image.getName());
         prod.setImage_type(image.getContentType());
         repo.save(prod);
-        int id=prod.getId();
-
     }
 
     //adding products with out image
