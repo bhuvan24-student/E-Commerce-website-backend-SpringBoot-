@@ -23,7 +23,7 @@ public class Products {
     private int id;
     private String name;
     private double price;
-    private String discription;
+    private String description;
     private String category;
     private Date date;
     private String image_name;
