@@ -1,13 +1,7 @@
 package eco.files.Mappings;
-import eco.files.Services.Products;
+import eco.files.Models.Products;
 import eco.files.Services.ProductsList;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.websocket.server.PathParam;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.web.csrf.CsrfToken;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,11 +26,11 @@ public class Mappings {
        }
         return ResponseEntity.ok(list);
     }
-    //MAPPING FOR CSRF TOKEN
-    @GetMapping("/csrf")
-    public CsrfToken Callcsrf(HttpServletRequest request){
-        return (CsrfToken) request.getAttribute("_csrf");
-    }
+//    //MAPPING FOR CSRF TOKEN
+//    @GetMapping("/csrf")
+//    public CsrfToken Callcsrf(HttpServletRequest request){
+//        return (CsrfToken) request.getAttribute("_csrf");
+//    }
 
 //    mapping for calling products with id
     @GetMapping("/products/{id:\\d+}")

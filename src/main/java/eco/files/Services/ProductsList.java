@@ -1,5 +1,6 @@
 package eco.files.Services;
 
+import eco.files.Models.Products;
 import eco.files.Repository.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
